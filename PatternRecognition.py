@@ -26,15 +26,28 @@ arithmetic_subset = arithmetic_subset.drop('latitude',axis=1)
 # with non-numeric data (i.e. the categorical subset)
 categorical_subset = data.select_dtypes(exclude=['int64', 'float64'])
 
-# Use the fit_transform() method to apply min-max scaling
-# to the columns of the DataFrame
-minmax_scaled_data = minMaxScaler.fit_transform(arithmetic_subset)
-#print(minmax_scaled_data[:5,:])
 
 # Use the fit_transform() method to apply standardization
 # to the columns of the DataFrame
-standard_scaled_data = standardScaler.fit_transform(arithmetic_subset)
-#print(standard_scaled_data[:5,:])
+standard_scaled_data = pd.DataFrame(standardScaler.fit_transform(arithmetic_subset), columns=arithmetic_subset.columns)
+
+# Get the median values of each column by using the median() method 
+# to fill the missing values 
+median_values = standard_scaled_data.median()
+
+# Fill the missing values of the dataframe with the median values of each column
+# using the fillna() method and the median_values variable that we calculated earlier
+standard_scaled_data = standard_scaled_data.fillna(median_values)
+print(standard_scaled_data)
+
+# Check if there are any remaining missing values
+if standard_scaled_data.isnull().any().any():
+    print("There are missing values in the data.")
+else:
+    print("There are no missing values in the data.")
+
+
+
 
 
 # Use the Pandas get_dummies() function to create one-hot vectors
