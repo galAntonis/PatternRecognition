@@ -53,24 +53,10 @@ one_hot_vectors = pd.get_dummies(categorical_subset['ocean_proximity'])
 categorical_subset = pd.concat([categorical_subset, one_hot_vectors], axis=1)
 print(categorical_subset)
 
-
-
-
 pdfs = {}
 for column in standard_scaled_data.columns:
     pdf = scipy.stats.gaussian_kde(standard_scaled_data[column])
     pdfs[column] = pdf
-
-
-pdf_0 = pdfs["longitude"]
-pdf_1 = pdfs["latitude"]
-pdf_2 = pdfs["housing_median_age"]
-pdf_3 = pdfs["total_rooms"]
-pdf_4 = pdfs["total_bedrooms"]
-pdf_5 = pdfs["population"]
-pdf_6 = pdfs["households"]
-pdf_7 = pdfs["median_income"]
-pdf_8 = pdfs["median_house_value"]
 
 fig, axs = plt.subplots(nrows=2, ncols=5, figsize=(20, 10))
 for ax, column, pdf in zip(axs.flat, standard_scaled_data.columns, pdfs.values()):
