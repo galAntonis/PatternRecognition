@@ -53,11 +53,14 @@ one_hot_vectors = pd.get_dummies(categorical_subset['ocean_proximity'])
 categorical_subset = pd.concat([categorical_subset, one_hot_vectors], axis=1)
 print(categorical_subset)
 
+
+# Store the gaussian kernel density estimation in pdfs directory
 pdfs = {}
 for column in standard_scaled_data.columns:
     pdf = scipy.stats.gaussian_kde(standard_scaled_data[column])
     pdfs[column] = pdf
 
+# Print data on screen
 fig, axs = plt.subplots(nrows=2, ncols=5, figsize=(20, 10))
 for ax, column, pdf in zip(axs.flat, standard_scaled_data.columns, pdfs.values()):
     standard_scaled_data[column].hist(bins=50, ax=ax, density=True)
@@ -66,6 +69,8 @@ for ax, column, pdf in zip(axs.flat, standard_scaled_data.columns, pdfs.values()
     ax.plot(x, y)
     ax.set_title(column)
 plt.show()
+
+# TODO: Check the column with the ocean proximity values and print the data on screen
 
 
 
